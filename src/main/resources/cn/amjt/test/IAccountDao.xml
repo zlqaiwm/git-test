@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.amjt.test.IAccountDao">
+
+    <!--<select id="findAll" resultType="accountuser">
+   SELECT a.*,u.username,u.address  FROM account a,USER u WHERE u.id=a.uid
+    </select>-->
+
+    <resultMap id="accountMap" type="account">
+
+        <id column="aid" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="money" property="money"/>
+        
+            <!--
+            <association property="user" javaType="user">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="sex" property="sex"/>
+            <result column="address" property="address"/>
+            <result column="birthday" property="birthday"/>
+             </association>
+            -->
+            <association property="user" column="uid" javaType="user" select="cn.amjt.test.IUserDao.findById">
+
+            </association>
+       
+    </resultMap>
+
+
+
+    <select id="findAll" resultMap="accountMap">
+        /*SELECT u.*,a.id,a.uid,a.money FROM  USER u  LEFT JOIN account a  ON u.id=a.uid*/
+        SELECT *from account
+    </select>
+</mapper>
